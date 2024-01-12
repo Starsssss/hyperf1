@@ -18,6 +18,11 @@ return [
                 'level' => Monolog\Logger::DEBUG,
             ],
         ],
+            'processors' => [
+                [
+                    'class' => App\AppendRequestIdProcessor::class,
+                ],
+            ],
         'formatter' => [
             'class' => Monolog\Formatter\LineFormatter::class,
             'constructor' => [
