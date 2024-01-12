@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Middleware;
 
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Context\Context;
 use Hyperf\Logger\LoggerFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -85,6 +86,7 @@ class RequestResponseLogMiddleware implements MiddlewareInterface
 
 
         $response =$handler->handle($request);
+        //TODO:出现全局异常处理后不会往下执行
         $requestResponseLog= [
             'method' => $method,
             'url' => $this->request->url(),
@@ -92,13 +94,38 @@ class RequestResponseLogMiddleware implements MiddlewareInterface
             'body' => $response->getBody()->getContents(),
             'headers' => $headers,
             'user_agent' => $userAgent,
+            'ip'=> $this->getRealIp(),
             // 'uri' => $this->request->getUri(),
             'query_params' => $queryParams,
             'params' => $this->request->all(),
             // 'server_params' => $serverParams,
         ];
+        var_dump('TODO:出现全局异常处理后不会往下执行',$response);
         // var_dump($requestResponseLog);
-        $this->logger->info(json_encode($requestResponseLog));
+        $this->logger->info('请求响应日志',$requestResponseLog);
         return $response;
+    }
+
+    /**
+     * 获取真实IP
+     * @author: crx
+     * @time: 2024/1/12 18:46
+     * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    function getRealIp(): string
+    {
+        $request = ApplicationContext::getContainer()->get(RequestInterface::class);
+        $headers = $request->getHeaders();
+
+        if(!empty($headers['x-forwarded-for'][0])) {
+            return $headers['x-forwarded-for'][0];
+        } elseif (!empty($headers['x-real-ip'][0])) {
+            return $headers['x-real-ip'][0];
+        }
+        $serverParams = $request->getServerParams();
+        return $serverParams['remote_addr'] ?? '';
+
     }
 }

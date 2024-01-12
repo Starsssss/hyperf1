@@ -22,6 +22,7 @@ class TestController extends AbstractController
         // $results = Db::select('SELECT item_id from sysitem_item  order by modify_time limit 10000,100');
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
+        $this->userService->index();
         $data= [
             'method' => $method,
             'message' => "Hello {$user}.",
