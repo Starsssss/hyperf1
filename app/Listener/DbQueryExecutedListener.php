@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of Hyperf.
  *
@@ -27,9 +28,11 @@ class DbQueryExecutedListener implements ListenerInterface
      * @var LoggerInterface
      */
     private $logger;
+    public static $time = 1;
 
     public function __construct(ContainerInterface $container)
     {
+        static::$time = 1;
         $this->logger = $container->get(LoggerFactory::class)->get('sql');
     }
 
@@ -46,6 +49,12 @@ class DbQueryExecutedListener implements ListenerInterface
     public function process(object $event): void
     {
         if ($event instanceof QueryExecuted) {
+            var_dump($event->time, \Hyperf\Context\Context::get('time1'));
+            \Hyperf\Context\Context::set('time', $event->time);
+            if (static::$time % 3 == 0) {
+                \Hyperf\Context\Context::set('time1', 1111);
+            }
+            static::$time++;
             $sql = $event->sql;
             if (! Arr::isAssoc($event->bindings)) {
                 $position = 0;
@@ -60,7 +69,7 @@ class DbQueryExecutedListener implements ListenerInterface
                 }
             }
 
-            $this->logger->info(sprintf('[%s] %s', $event->time, $sql));
+            $this->logger->info(sprintf('耗时:[%s],sql:%s', $event->time, $sql));
         }
     }
 }
