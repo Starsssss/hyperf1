@@ -18,10 +18,31 @@ class UserService
         $this->logger = $loggerFactory->get('log', 'default');
     }
 
-    public function method()
+    /**
+     * 测试异常方法
+     * @author: crx
+     * @time: 2024/1/12 17:44
+     * @return mixed
+     * @throws \Exception
+     */
+    public function testException()
     {
         // Do something.
         $this->logger->info("Your log message.");
+        $this->logger->info("Your log message2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222.");
+        throw new \Exception('测试异常eee', 1111);
+    }
+
+    /**
+     * 正常方法调用
+     * @author: crx
+     * @time: 2024/1/12 17:45
+     * @return void
+     */
+    public function index()
+    {
+        // Do something.
+        $this->logger->info("INDEX log message.");
         $this->logger->info("Your log message2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222.");
     }
 }

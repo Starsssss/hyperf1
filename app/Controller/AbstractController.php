@@ -27,4 +27,35 @@ abstract class AbstractController
 
     #[Inject]
     protected ResponseInterface $response;
+
+    /**
+     * 成功统一返回格式
+     * @author: crx
+     * @time: 2024/1/12 17:57
+     * @param $data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function success($data = [])
+    {
+        return $this->response->json([
+            'code' => 0,
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * 失败统一返回格式
+     * @author: crx
+     * @time: 2024/1/12 17:57
+     * @param $code
+     * @param $message
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function fail($code, $message = '')
+    {
+        return $this->response->json([
+            'code' => $code,
+            'message' => $message,
+        ]);
+    }
 }
