@@ -35,9 +35,24 @@ class Response
 
     public function fail($code, $message = '')
     {
+
         return $this->response->json([
             'code' => $code,
             'message' => $message,
         ]);
+    }
+
+    /**
+     * Notes : 返回json格式
+     * @author: crx
+     * @time: 2024/1/13 11:41
+     * @param $code
+     * @param $message
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function failContent(ResponseContent $responseContent)
+    {
+        var_dump(json_encode($responseContent, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        return $this->response->json($responseContent);
     }
 }

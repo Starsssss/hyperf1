@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Exception\Handler;
 
 use App\Components\Response;
+use App\Components\ResponseContent;
 use App\Exception\BusinessException;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\ExceptionHandler\ExceptionHandler;
@@ -22,6 +23,7 @@ use Hyperf\Logger\LoggerFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
+use Hyperf\Context\Context;
 
 
 class AppExceptionHandler extends ExceptionHandler
@@ -52,10 +54,14 @@ class AppExceptionHandler extends ExceptionHandler
         if ($throwable instanceof HttpException) {
             return $this->response->fail($throwable->getStatusCode(), $throwable->getMessage());
         }
-
-        $this->logger->error($formatter->format($throwable));
-
-        return $this->response->fail($throwable->getCode(), true ? $throwable->getMessage() : 'Server Error');
+        //自定义标准格式化异常日志
+        // $this->logger->error($formatter->format($throwable));
+        $requestResponseLog = Context::get('requestResponseLog');
+        $responseContent = new ResponseContent($throwable->getCode(), [], $throwable->getMessage());
+        $requestResponseLog['response_body']=(string)$responseContent;
+        $requestResponseLog['http_code']= $response->getStatusCode();
+        $this->logger->info('请求响应日志',$requestResponseLog);
+        return $this->response->failContent($responseContent);
         // return $this->response->fail(500, env('APP_ENV') == 'dev' ? $throwable->getMessage() : 'Server Error');
     }
 

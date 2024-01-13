@@ -76,31 +76,25 @@ class RequestResponseLogMiddleware implements MiddlewareInterface
         $method = strtoupper($request->getMethod());
 
         $headers = $request->getHeaders();
-        $userAgent = $headers['User-Agent'] ?? null; // 需要从headers中提取user-agent
-
-        $uri = $request->getUri();
-        $url = $request->url();
+        $userAgent = $headers['user-agent'] ?? null; // 需要从headers中提取user-agent
 
         $queryParams = $request->getQueryParams();
         $serverParams = $request->getServerParams();
-
-
-        $response =$handler->handle($request);
-        //TODO:出现全局异常处理后不会往下执行
         $requestResponseLog= [
             'method' => $method,
             'url' => $this->request->url(),
-            'response_code' => $response->getStatusCode(),
-            'body' => $response->getBody()->getContents(),
             'headers' => $headers,
             'user_agent' => $userAgent,
             'ip'=> $this->getRealIp(),
-            // 'uri' => $this->request->getUri(),
             'query_params' => $queryParams,
             'params' => $this->request->all(),
-            // 'server_params' => $serverParams,
+            'server_params' => $serverParams,
         ];
-        var_dump('TODO:出现全局异常处理后不会往下执行',$response);
+        Context::set('requestResponseLog', $requestResponseLog);
+        $response =$handler->handle($request);
+        $requestResponseLog['response_body']= $response->getBody()->getContents();
+        $requestResponseLog['http_code']= $response->getStatusCode();
+
         // var_dump($requestResponseLog);
         $this->logger->info('请求响应日志',$requestResponseLog);
         return $response;
