@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Middleware;
 
+use App\AppendRequestIdProcessor;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Context\Context;
 use Hyperf\Logger\LoggerFactory;
@@ -49,9 +50,11 @@ class RequestResponseLogMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $requestId = (Context::getOrSet(AppendRequestIdProcessor::REQUEST_ID, uniqid()));
         $response = Context::get(ResponseInterface::class);
         $response = $response->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Credentials', 'true')
+            ->withHeader('X-Request-Id', $requestId)
             // Headers 可以根据实际情况进行改写。
             ->withHeader('Access-Control-Allow-Headers', 'DNT,Keep-Alive,User-Agent,Cache-Control,Content-Type,Authorization');
 
@@ -94,8 +97,6 @@ class RequestResponseLogMiddleware implements MiddlewareInterface
         $response =$handler->handle($request);
         $requestResponseLog['response_body']= $response->getBody()->getContents();
         $requestResponseLog['http_code']= $response->getStatusCode();
-
-        // var_dump($requestResponseLog);
         $this->logger->info('请求响应日志',$requestResponseLog);
         return $response;
     }
