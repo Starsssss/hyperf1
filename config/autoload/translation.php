@@ -10,8 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
-    'http' => [
-        \App\Middleware\RequestResponseLogMiddleware::class,
-        \App\Middleware\MultiLanguage::class, // 多语言中间件
-    ],
+    'locale' => 'zh_CN',
+    'fallback_locale' => 'en',
+    'path' => BASE_PATH . '/storage/languages',
 ];

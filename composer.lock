@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9c4a88085fdaf833bf12972478c1150",
+    "content-hash": "537d99b369e05e969051741fce0d0308",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -4106,6 +4106,76 @@
             "time": "2023-11-30T09:47:09+00:00"
         },
         {
+            "name": "hyperf/translation",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/translation.git",
+                "reference": "324eb2d335c88101e69abedecd33188a535f4760"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/translation/zipball/324eb2d335c88101e69abedecd33188a535f4760",
+                "reference": "324eb2d335c88101e69abedecd33188a535f4760",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "hyperf/contract": "~3.1.0",
+                "hyperf/macroable": "~3.1.0",
+                "hyperf/support": "~3.1.0",
+                "hyperf/utils": "~3.1.0",
+                "php": ">=8.1",
+                "psr/container": "^1.0|^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                },
+                "hyperf": {
+                    "config": "Hyperf\\Translation\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Functions.php"
+                ],
+                "psr-4": {
+                    "Hyperf\\Translation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An independent translation component, forked by illuminate/translation.",
+            "keywords": [
+                "hyperf",
+                "translation"
+            ],
+            "support": {
+                "issues": "https://github.com/hyperf/translation/issues",
+                "source": "https://github.com/hyperf/translation/tree/v3.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://hyperf.wiki/#/zh-cn/donate",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://opencollective.com/hyperf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2023-11-24T03:10:53+00:00"
+        },
+        {
             "name": "hyperf/utils",
             "version": "v3.1.0",
             "source": {
@@ -7040,6 +7110,51 @@
                 }
             ],
             "time": "2023-11-12T22:43:29+00:00"
+        },
+        {
+            "name": "ximu/xmutil",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Starsssss/xmutil.git",
+                "reference": "dea653690ab4ee1a58d51dbfe05525593602ddfb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Starsssss/xmutil/zipball/dea653690ab4ee1a58d51dbfe05525593602ddfb",
+                "reference": "dea653690ab4ee1a58d51dbfe05525593602ddfb",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ximu\\Xmutil\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "陈锐鑫",
+                    "email": "2543852925@qq.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Starsssss/xmutil/issues",
+                "source": "https://github.com/Starsssss/xmutil/tree/v1.0.1"
+            },
+            "time": "2024-01-13T02:26:15+00:00"
         }
     ],
     "packages-dev": [
