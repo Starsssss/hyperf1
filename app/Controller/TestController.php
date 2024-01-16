@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Aspect\BAnnotation;
 use App\Service\UserService;
 use Hyperf\DbConnection\Db;
 use Hyperf\Di\Annotation\Inject;
@@ -10,6 +11,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 
 #[Controller]
+#[BAnnotation]
 class TestController extends AbstractController
 {
     #[Inject]
@@ -26,6 +28,18 @@ class TestController extends AbstractController
         $data= [
             'method' => $method,
             'message' => "Hello {$user}.",
+            'time' => \Hyperf\Context\Context::get('time'),
+            'time1' => \Hyperf\Context\Context::get('time1'),
+        ];
+        return $this->success($data);
+    }
+    #[RequestMapping(path: "bb", methods: "get,post")]
+    public function testParmDi(... $integer)
+    {
+        var_dump('被代理的〒_〒类',$integer);
+        $data= [
+            'method' => $integer,
+            'message' => "Hello {123}.",
             'time' => \Hyperf\Context\Context::get('time'),
             'time1' => \Hyperf\Context\Context::get('time1'),
         ];
